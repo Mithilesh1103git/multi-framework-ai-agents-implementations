@@ -4,11 +4,9 @@ import os
 from collections.abc import AsyncIterator, Callable, Iterator, Sequence
 from typing import Any, List, Optional
 
-import requests
+import httpx
 import uvicorn
 from fastapi import Body, FastAPI, Request
-from langchain.agents import create_agent
-from langchain.tools import tool
 from langchain_community.chat_models import ChatLlamaCpp
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.callbacks import CallbackManager, CallbackManagerForLLMRun
@@ -26,7 +24,8 @@ from langchain_core.runnables import Runnable, RunnableConfig
 from langchain_core.tools import BaseTool, tool
 from langchain_core.utils.function_calling import convert_to_openai_tool
 
-app = FastAPI(name="Langchain AI Agent", root_path="/api/v1/agent")
+from langchain.agents import create_agent
+from langchain.tools import tool
 
 
 class GemmaLLM(BaseChatModel):
@@ -82,7 +81,7 @@ class GemmaLLM(BaseChatModel):
             "stop": ["<|im_end|>", "<end_of_turn>", "user\n", "assistant\n"],
         }
 
-        response = requests.post(server_url, json=data, timeout=30)
+        response = httpx.post(server_url, json=data, timeout=30)
 
         chat_result = response.json()["choices"][0]["message"]["content"]
 
@@ -113,18 +112,8 @@ agent = create_agent(model=llm, tools=tools, system_prompt=SystemMessage(system_
 
 
 # # 4. Create Executor and Run
-def invoke_agent(messages: List(str)):
+def invoke_agent(messages: list[str]):
     messages = [HumanMessage(message) for message in messages]
     response = agent.invoke({"messages": messages})
 
     return response
-
-
-# 4. Create API endpoint
-@app.post("/chat/generation")
-def chat_generation(user_messages: str = Body(embed=True)):
-    return invoke_agent([user_messages])
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)

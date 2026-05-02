@@ -1,0 +1,10 @@
+isort
+black
+google-adk
+fastapi
+uvicorn
+httpx
+langchain-core
+langchain
+langchain-community
+langgraph

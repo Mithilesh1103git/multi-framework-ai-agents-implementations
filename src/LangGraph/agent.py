@@ -2,8 +2,15 @@ import datetime
 from functools import partial
 
 import httpx
+from langchain_core.messages import (
+    AIMessage,
+    BaseMessage,
+    HumanMessage,
+    SystemMessage,
+    ToolMessage,
+)
+
 import langgraph
-from langchain_core.messages import AIMessage, ToolMessage
 from langgraph.graph import END, START, MessagesState, StateGraph
 
 server_url = "http://localhost:9090/v1/chat/completions"
@@ -85,8 +92,15 @@ graph.add_edge(Nodes.LLM_2, Nodes.TOOL_FOR_STORE)
 graph.add_edge(Nodes.TOOL_FOR_STORE, END)
 graph = graph.compile()
 
-results = graph.invoke(
-    {"messages": [{"role": "user", "content": "Hi! When should I plan the wedding?"}]}
-)
+# results = graph.invoke(
+#     {"messages": [{"role": "user", "content": "Hi! When should I plan the wedding?"}]}
+# )
+# print(agent_conversations)
 
-print(agent_conversations)
+
+# # 4. Create Executor and Run
+def invoke_agent(messages: list[str]):
+    messages = [HumanMessage(message) for message in messages]
+    response = graph.invoke({"messages": messages})
+    print(agent_conversations)
+    return response
