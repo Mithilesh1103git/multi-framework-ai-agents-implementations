@@ -17,6 +17,7 @@ from langchain_core.messages import (
     BaseMessage,
     HumanMessage,
     SystemMessage,
+    ToolMessage,
     convert_to_messages,
 )
 from langchain_core.outputs import ChatGeneration, ChatResult
@@ -98,7 +99,13 @@ def get_current_timestamp():
     This function is a tool for agent to fetch the current timestamp.
     This return string formatted current timestamp in IST.
     """
-    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return {
+        "messages": ToolMessage(
+            content="I am sharing important information that can help you decide. The current timestamp is : "
+            + str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
+            tool_call_id="current_timestamp",
+        )
+    }
 
 
 # 2. Define the LLM and Tools

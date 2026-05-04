@@ -1,0 +1,24 @@
+import pytest
+try:
+    from ..src.langchain_agent.agent import invoke_agent
+except:
+    from src.langchain_agent.agent import invoke_agent
+from langchain_core.messages import HumanMessage
+
+
+# This is a helper function (not a test)
+def parse_response():
+    pass
+
+
+# This is the actual test
+def test_get_langchain_agent_response():
+    messages = [
+        HumanMessage("This is test message.")
+    ]
+    
+    agent_response = invoke_agent({"message": messages})
+
+    # You must ASSERT something to make the test meaningful
+    assert agent_response
+    assert isinstance(agent_response, list)
