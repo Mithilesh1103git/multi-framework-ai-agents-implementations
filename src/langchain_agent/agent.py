@@ -80,10 +80,13 @@ class GemmaLLM(BaseChatModel):
             "temperature": 0.5,
             "stop": ["<|im_end|>", "<end_of_turn>", "user\n", "assistant\n"],
         }
-
+        
         response = httpx.post(server_url, json=data, timeout=30)
 
-        chat_result = response.json()["choices"][0]["message"]["content"]
+        try:
+            chat_result = response.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            chat_result = e
 
         generated_result = ChatResult(
             generations=[ChatGeneration(message=AIMessage(content=chat_result))]

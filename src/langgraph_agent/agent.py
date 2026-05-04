@@ -44,7 +44,10 @@ def mock_llm(state: MessagesState):
 
     response = httpx.post(server_url, json=data, timeout=300)
 
-    chat_result = response.json()["choices"][0]["message"]["content"]
+    try:
+        chat_result = response.json()["choices"][0]["message"]["content"]
+    except Exception as e:
+        chat_result = e
 
     return {"messages": [AIMessage(content=chat_result)]}
 
