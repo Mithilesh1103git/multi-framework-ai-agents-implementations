@@ -7,6 +7,8 @@ from typing import Any, List, Optional
 import httpx
 import uvicorn
 from fastapi import Body, FastAPI, Request
+from langchain.agents import create_agent
+from langchain.tools import tool
 from langchain_community.chat_models import ChatLlamaCpp
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.callbacks import CallbackManager, CallbackManagerForLLMRun
@@ -24,9 +26,6 @@ from langchain_core.outputs import ChatGeneration, ChatResult
 from langchain_core.runnables import Runnable, RunnableConfig
 from langchain_core.tools import BaseTool, tool
 from langchain_core.utils.function_calling import convert_to_openai_tool
-
-from langchain.agents import create_agent
-from langchain.tools import tool
 
 
 class GemmaLLM(BaseChatModel):

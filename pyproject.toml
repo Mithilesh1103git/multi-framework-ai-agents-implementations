@@ -1,0 +1,22 @@
+[project]
+name="multi_framework_agent_implementations"
+version="v1.0.0"
+dependencies= [
+    "isort",
+    "black",
+    "google-adk",
+    "fastapi",
+    "uvicorn",
+    "httpx",
+    "langchain-core",
+    "langchain",
+    "langchain-community",
+    "langgraph",
+]
+
+[tool.pytest.ini_options]
+addopts = "--cov=src --cov-report=term --cov-report=xml"
+
+[tool.coverage.run]
+source = ["src",]
+omit = ["test/*", "**/__init__.py"]

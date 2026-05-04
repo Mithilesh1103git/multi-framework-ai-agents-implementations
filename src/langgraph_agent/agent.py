@@ -2,6 +2,7 @@ import datetime
 from functools import partial
 
 import httpx
+import langgraph
 from langchain_core.messages import (
     AIMessage,
     BaseMessage,
@@ -9,8 +10,6 @@ from langchain_core.messages import (
     SystemMessage,
     ToolMessage,
 )
-
-import langgraph
 from langgraph.graph import END, START, MessagesState, StateGraph
 
 server_url = "http://localhost:9090/v1/chat/completions"

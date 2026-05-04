@@ -1,0 +1,12 @@
+[run]
+# Only measure this directory
+source = src
+
+[report]
+# Automatically ignore the test files themselves
+omit = 
+    test/*
+    generic_client.py
+
+# Optional: Show which lines are actually missing
+show_missing = True
