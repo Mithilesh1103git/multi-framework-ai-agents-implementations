@@ -20,6 +20,9 @@ agent_conversations = []
 
 
 def mock_llm(state: MessagesState):
+    # model_name = "google/gemma-2b"
+    model_name = "bartowski/google_gemma-4-E2B-it-GGUF"
+
     messages = state["messages"]
 
     formatted_messages = [
@@ -29,7 +32,7 @@ def mock_llm(state: MessagesState):
         formatted_messages.append({"role": "user", "content": user_message.content})
 
     data = {
-        "model": "google/gemma-2b",
+        "model": model_name,
         "messages": formatted_messages,
         "max_tokens": 50,  # 1. LIMIT tokens so it doesn't run forever
         "temperature": 0.5,

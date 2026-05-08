@@ -1,7 +1,7 @@
 from google.adk.agents.llm_agent import Agent
 
 root_agent = Agent(
-    model="<FILL_IN_MODEL>",
+    model="bartowski/google_gemma-4-E2B-it-GGUF",
     name="root_agent",
     description="A helpful assistant for user questions.",
     instruction="Answer user questions to the best of your knowledge",
